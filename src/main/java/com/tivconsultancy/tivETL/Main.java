@@ -49,6 +49,7 @@ public class Main extends Application {
         icons.add("/com/tivconsultancy/tivPIVETL/icons/Icon16x16.png");
         MainFrame.setIcons(new dummyClass().getClass(), icons);
         MainFrame.setLoadPicture(new dummyClass().getClass(), "/com/tivconsultancy/tivPIVETL/icons/load.png");
+        MainFrame.setLogo(new dummyClass().getClass(), "/com/tivconsultancy/tivPIVETL/logo/Logo-BlackBlueText_noBckGr_s.png");
 
         StaticReferences.controller = new tivPIVETLController();
         StaticReferences.controller.startNewMethod(new tivPIVETLMethod());
