@@ -110,7 +110,7 @@ public class tivPIVETLController extends BasicController {
     }
 
     @Override
-    public void setSelectedFile(File f) {
+    public void setSelectedFile(File fOld, File f) {
         this.selectedFile = f;
         this.getCurrentMethod().setFiles(new File[]{f});
         try {
@@ -178,7 +178,7 @@ public class tivPIVETLController extends BasicController {
                     for (File f : ReadInFile) {
                         try {
                             StaticReferences.getlog().log(Level.SEVERE, "Starting for: " + f);
-                            setSelectedFile(f);
+                            setSelectedFile(null, f);
                             try {
                                 getCurrentMethod().runParts(runOptions.INSPIC.toString());
                                 subViews.update();
