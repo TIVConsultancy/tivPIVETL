@@ -14,10 +14,13 @@ import com.tivconsultancy.tivGUI.controller.ControllerUI;
 import com.tivconsultancy.tivGUI.controller.subControllerMenu;
 import com.tivconsultancy.tivGUI.controller.subControllerSQL;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Dialog;
@@ -70,11 +73,15 @@ public class tivPIVETLSubControllerMenu implements subControllerMenu {
 
     private void initIcons() {
         icons = new LookUp<>();
-        icons.add(new NameObject<>(dictionary(MenuEntries.Load), StaticReferences.standardIcons.get("folderOpen2.png")));
-
-        icons.add(new NameObject<>(dictionary(MenuEntries.SQL), StaticReferences.standardIcons.get("sql.png")));
-        icons.add(new NameObject<>(dictionary(MenuEntries.insertCSVtoSQL), StaticReferences.standardIcons.get("csvCloud.png")));
-        icons.add(new NameObject<>(dictionary(MenuEntries.insertPICtoSQl), StaticReferences.standardIcons.get("picCloud.png")));
+        try {            
+            icons.add(new NameObject<>(dictionary(MenuEntries.Load), StaticReferences.standardIcons.get("folderOpen2.png")));
+            
+            icons.add(new NameObject<>(dictionary(MenuEntries.SQL), StaticReferences.standardIcons.get("sql.png")));
+            icons.add(new NameObject<>(dictionary(MenuEntries.insertCSVtoSQL), StaticReferences.standardIcons.get("csvCloud.png")));
+            icons.add(new NameObject<>(dictionary(MenuEntries.insertPICtoSQl), StaticReferences.standardIcons.get("picCloud.png")));
+        } catch (IOException ex) {
+            Logger.getLogger(tivPIVETLSubControllerMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
