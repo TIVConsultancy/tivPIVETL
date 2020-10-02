@@ -133,21 +133,21 @@ public class tivPIVETLSubControllerSQL extends StartUpSubControllerSQL {
     }
 
     public List<String> getAvailExperiments() {
-        return getColumnEntries("piv", "experiment", "ident");
+        return getColumnEntries("flowdata", "experiment", "ident");
     }
 
     public String getreadEntryPic(String ident, String experiment) {
-        String sqlStatement = "SELECT picture FROM pivexp.pictures WHERE ident = '" + ident + "' AND experiment = '" + experiment + "'";
+        String sqlStatement = "SELECT picture FROM expdata.pictures WHERE ident = '" + ident + "' AND experiment = '" + experiment + "'";
         return sqlStatement;
     }
 
     public String getinsertEntryPic() {
-        String sqlStatement = "INSERT INTO pivexp.pictures (experiment, ident, picture)" + " VALUES(?,?,?)";
+        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, picture)" + " VALUES(?,?,?)";
         return sqlStatement;
     }
 
     public String getupserEntryPic() {
-        String sqlStatement = "INSERT INTO pivexp.pictures (experiment, ident, picture)" + " VALUES(?,?,?)"
+        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, picture)" + " VALUES(?,?,?)"
                 + "ON CONFLICT (experiment, ident) DO UPDATE SET "
                 + "experiment = EXCLUDED.experiment, "
                 + "ident = EXCLUDED.ident,"
@@ -156,12 +156,12 @@ public class tivPIVETLSubControllerSQL extends StartUpSubControllerSQL {
     }
     
     public String getinsertEntrySettings(String experiment, String ident, String settingsString) {
-        String sqlStatement = "INSERT INTO pivexp.pictures (experiment, ident, settingstring)" + " VALUES("+ experiment+","+ ident+","+ settingsString+")";
+        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, settingstring)" + " VALUES("+ experiment+","+ ident+","+ settingsString+")";
         return sqlStatement;
     }
     
     public String getupserEntrySettings(String experiment, String ident, String settingsString) {
-        String sqlStatement = "INSERT INTO pivexp.pictures (experiment, ident, settingstring)" + " VALUES("+ experiment+","+ ident+","+ settingsString+")"
+        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, settingstring)" + " VALUES("+ experiment+","+ ident+","+ settingsString+")"
                 + "ON CONFLICT (experiment, ident) DO UPDATE SET "
                 + "experiment = EXCLUDED.experiment, "
                 + "ident = EXCLUDED.ident,"
@@ -173,7 +173,7 @@ public class tivPIVETLSubControllerSQL extends StartUpSubControllerSQL {
         File f = new File(sDir);
         for (File af : f.listFiles()) {
             if (af.getName().contains("Complete") && af.getName().contains(".csv")) {
-                int iAffectedRows = getDatabase(null).performStatement("COPY piv.liqvelo (experiment, settings, timestampexp, posx, posy, posz, velox, veloy) FROM '" + af.toPath() + "' CSV HEADER;");
+                int iAffectedRows = getDatabase(null).performStatement("COPY flowdata.liqvelo (experiment, settings, timestampexp, posx, posy, posz, velox, veloy) FROM '" + af.toPath() + "' CSV HEADER;");
                 System.out.println(iAffectedRows);
             }
         }
