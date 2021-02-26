@@ -61,6 +61,8 @@ public class tivPIVETLSubControllerSQL extends StartUpSubControllerSQL {
                 pstmt.setString(1, experiment);
                 pstmt.setString(2, ident);
                 pstmt.setBinaryStream(3, is);
+                pstmt.setBinaryStream(4, is);
+                pstmt.setBinaryStream(5, is);
                 pstmt.executeUpdate();
                 return true;
             } catch (Exception e) {
@@ -71,6 +73,8 @@ public class tivPIVETLSubControllerSQL extends StartUpSubControllerSQL {
                 pstmt.setString(1, experiment);
                 pstmt.setString(2, ident);
                 pstmt.setBinaryStream(3, is);
+                pstmt.setBinaryStream(4, is);
+                pstmt.setBinaryStream(5, is);
                 pstmt.executeUpdate();
                 return true;
             } catch (Exception e) {
@@ -80,21 +84,21 @@ public class tivPIVETLSubControllerSQL extends StartUpSubControllerSQL {
 
         return false;
     }
-    
+
     public boolean writeSettingsToSQL(String experiment, String ident, String settingsString) {
         if (!isConnected) {
             return false;
         }
         try {
             if ("adminPIV".equals(StaticReferences.controller.getSQLControler(null).getUser())) {
-            getDatabase(null).performStatement(getupserEntrySettings(experiment, ident, settingsString));            
-        } else {
-            getDatabase(null).performStatement(getinsertEntrySettings(experiment, ident, settingsString));            
-        }
+                getDatabase(null).performStatement(getupserEntrySettings(experiment, ident, settingsString));
+            } else {
+                getDatabase(null).performStatement(getinsertEntrySettings(experiment, ident, settingsString));
+            }
         } catch (Exception e) {
             StaticReferences.getlog().log(Level.SEVERE, "Cannot insert Settings", e);
         }
-        
+
         return true;
     }
 
@@ -142,33 +146,33 @@ public class tivPIVETLSubControllerSQL extends StartUpSubControllerSQL {
     }
 
     public String getinsertEntryPic() {
-        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, picture)" + " VALUES(?,?,?)";
+        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, picture,mask,intersec)" + " VALUES(?,?,?,?,?)";
         return sqlStatement;
     }
 
     public String getupserEntryPic() {
-        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, picture)" + " VALUES(?,?,?)"
+        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, picture,mask,intersec)" + " VALUES(?,?,?,?,?)"
                 + "ON CONFLICT (experiment, ident) DO UPDATE SET "
                 + "experiment = EXCLUDED.experiment, "
                 + "ident = EXCLUDED.ident,"
                 + "picture = EXCLUDED.picture";
         return sqlStatement;
     }
-    
+
     public String getinsertEntrySettings(String experiment, String ident, String settingsString) {
-        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, settingstring)" + " VALUES("+ experiment+","+ ident+","+ settingsString+")";
+        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, settingstring)" + " VALUES(" + experiment + "," + ident + "," + settingsString + ")";
         return sqlStatement;
     }
-    
+
     public String getupserEntrySettings(String experiment, String ident, String settingsString) {
-        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, settingstring)" + " VALUES("+ experiment+","+ ident+","+ settingsString+")"
+        String sqlStatement = "INSERT INTO expdata.pictures (experiment, ident, settingstring)" + " VALUES(" + experiment + "," + ident + "," + settingsString + ")"
                 + "ON CONFLICT (experiment, ident) DO UPDATE SET "
                 + "experiment = EXCLUDED.experiment, "
                 + "ident = EXCLUDED.ident,"
                 + "settingstring = EXCLUDED.settingstring";
         return sqlStatement;
     }
-    
+
     public void importCSVfile(String sDir) {
         File f = new File(sDir);
         for (File af : f.listFiles()) {
